@@ -4,6 +4,14 @@ An AI-powered, real-time veterinary anesthesia monitoring application. This Prog
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
+**🔴 Live App: [vet-anesthesia.web.app](https://vet-anesthesia.web.app/)**
+
+## 🎬 Demo
+
+https://github.com/user-attachments/assets/VetAnesthesiaMonitorDemo.mov
+
+> *See the full demo video: [docs/VetAnesthesiaMonitorDemo.mov](docs/VetAnesthesiaMonitorDemo.mov)*
+
 ## 🌟 Features
 
 *   **📱 Multi-Device Sync**: Seamlessly share cases across devices (e.g., monitor via iPad, read data via an external display) in real-time.
