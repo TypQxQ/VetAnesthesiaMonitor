@@ -1,0 +1,33 @@
+{
+  "name": "vet-anesthesia-monitor",
+  "version": "1.2.0",
+  "description": "An AI-powered web application for monitoring and charting veterinary anesthesia via a camera feed.",
+  "author": "Andrei Ignat",
+  "license": "Apache-2.0",
+  "homepage": "https://vet-anesthesia.web.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TypQxQ/VetAnesthesiaMonitor.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "deploy": "npm run build && firebase deploy"
+  },
+  "devDependencies": {
+    "@playwright/browser-chromium": "^1.58.2",
+    "@playwright/test": "^1.58.2",
+    "firebase-tools": "^15.11.0",
+    "jsdom": "^29.0.1",
+    "vite": "^5.0.0",
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "firebase": "^12.11.0"
+  }
+}

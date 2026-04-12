@@ -1,0 +1,223 @@
+:root {
+  /* Colors - Medical Dark Theme */
+  --bg-dark: #0a0a0c;
+  --bg-panel: #1a1a1f;
+  --bg-panel-hover: #23232a;
+  --text-main: #f0f0f5;
+  --text-muted: #8e8e99;
+  
+  /* Status Colors */
+  --status-ok: #00ff88;
+  --status-warning: #ffcc00;
+  --status-critical: #ff4444;
+  --status-info: #00ccff;
+  
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Spacing */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* Prevents double-tap zoom on all elements */
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.5;
+  height: 100dvh; /* Dynamic height for Safari */
+  width: 100vw;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Split View Layout */
+.split-view {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column; /* Default: Portrait */
+}
+
+.camera-pane {
+  flex: 1.2; /* Significantly larger in portrait */
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 2px solid var(--bg-panel);
+  min-height: 0;
+  min-width: 0;
+  transition: flex 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth expansion */
+}
+
+.data-pane {
+  flex: 1; /* Adjusted for larger camera */
+  background: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Landscape Mode overrides */
+@media (orientation: landscape) and (min-width: 600px) {
+  .split-view {
+    flex-direction: row;
+  }
+  .split-view.reverse-layout {
+    flex-direction: row-reverse;
+  }
+  .camera-pane {
+    flex: 1.8; /* Much bigger in landscape */
+    border-bottom: none;
+    border-right: 2px solid var(--bg-panel);
+  }
+  .camera-pane.collapsed {
+    flex: 0 0 80px; /* Accommodate larger button */
+  }
+  .data-pane {
+    flex: 1;
+  }
+}
+
+.camera-pane.collapsed {
+  flex: 0 0 80px; /* Accommodate larger button in portrait */
+}
+
+/* Tappable Value Styles */
+.value-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background: var(--bg-panel);
+  padding: var(--sp-sm) var(--sp-md);
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.value-display:hover, .value-display:active {
+  background: var(--bg-panel-hover);
+  transform: translateY(-1px);
+}
+
+.value-display.status-ok { color: var(--status-ok); }
+.value-display.status-warning { color: var(--status-warning); }
+.value-display.status-critical { 
+  color: var(--status-critical); 
+  animation: pulse-border 1.5s infinite;
+}
+
+.value-display.inherited {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.value-display.manual-override {
+  border-color: var(--status-info);
+}
+
+/* Keyframes */
+@keyframes pulse-border {
+  0% { border-color: transparent; }
+  50% { border-color: var(--status-critical); }
+  100% { border-color: transparent; }
+}
+
+/* Tabs inside Data Pane */
+.tabs-header {
+  display: flex;
+  background: var(--bg-panel);
+  border-bottom: 1px solid #333;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: var(--sp-sm) var(--sp-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  color: #fff;
+  border-bottom: 3px solid var(--status-info);
+  background: rgba(255,255,255,0.05);
+}
+
+.tab-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.tab-pane {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto; /* allow scrolling INSIDE the tab if needed */
+}
+
+.tab-pane.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Collaboration Button Active State */
+.btn-icon.active {
+  color: var(--status-ok) !important;
+  background: rgba(0, 255, 136, 0.1) !important;
+  border: 1px solid rgba(0, 255, 136, 0.3) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+  animation: pulse-button-glow 2s infinite;
+}
+
+@keyframes pulse-button-glow {
+  0% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); opacity: 0.9; }
+  50% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); opacity: 1; }
+  100% { box-shadow: 0 0 5px rgba(0, 255, 136, 0.2); opacity: 0.9; }
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
