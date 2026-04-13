@@ -8,9 +8,7 @@ An AI-powered, real-time veterinary anesthesia monitoring application. This Prog
 
 ## 🎬 Demo
 
-https://github.com/user-attachments/assets/VetAnesthesiaMonitorDemo.mov
-
-> *See the full demo video: [docs/VetAnesthesiaMonitorDemo.mov](docs/VetAnesthesiaMonitorDemo.mov)*
+https://github.com/user-attachments/assets/333846b0-1dab-4b91-82a6-c0cf3ba99f56
 
 ## 🌟 Features
 
