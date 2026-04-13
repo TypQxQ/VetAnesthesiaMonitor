@@ -54,12 +54,38 @@ https://github.com/user-attachments/assets/VetAnesthesiaMonitorDemo.mov
     ```
     *The app will be available on a local secure server (https) so camera permissions function properly.*
 
-### Firebase Setup & Security
+## ⚠️ Security Considerations
 
-Since this app operates completely client-side in its current open-source form without user authentication:
-**It is highly recommended to properly secure your Firestore Database.**
+This project is designed as an **easy-to-deploy proof of concept** that runs entirely on Firebase's free Spark tier. It prioritizes accessibility and ease of setup. For production clinical environments, additional hardening is recommended (see below).
 
-Deploying this app simply requires setting up Firebase Hosting and providing a `Firestore` database. However, as no authentication is included natively, failing to secure your Firestore rules (`firebase.json` & `firestore.rules`) can result in publicly editable data.
+### API Key Exposure
+
+The Gemini API key uses a `VITE_` prefix, which means Vite embeds it in the client-side JavaScript bundle. This is visible in browser DevTools on any live deployment. This is a known tradeoff of the free-tier architecture.
+
+**Mitigation — API Key Restrictions (recommended):**
+
+1.  Go to [Google Cloud Console → Credentials](https://console.cloud.google.com/apis/credentials)
+2.  Click on your Gemini API key
+3.  Under **Application restrictions**, select **HTTP referrers (websites)**
+4.  Add your domains (e.g. `your-app.web.app/*`, `localhost:*`)
+5.  Under **API restrictions**, restrict to **Generative Language API** only
+
+This ensures the key is functionally useless outside your domains, even though it's technically visible. This is the [approach recommended by Google](https://cloud.google.com/docs/authentication/api-keys#securing) for client-side API keys.
+
+### Firestore Rules
+
+This app does not use Firebase Authentication. The Firestore security rules allow public read/write access to session and case data. The included `firestore.rules` block session deletion and deny access to all other collections, but without authentication the data is still publicly accessible to anyone who knows the session ID.
+
+This is fine for demos, local use, and experimentation but should be hardened before deploying to a real clinic network.
+
+### Hardening for Production Use
+
+If you plan to deploy this in a clinical environment, consider:
+
+*   **Firebase Authentication** — Add user login to restrict data access to authenticated staff
+*   **Cloud Functions (Blaze plan)** — Proxy Gemini API calls through a server-side function so the API key never reaches the client
+*   **Firebase App Check** — Prevent unauthorized apps from accessing your backend
+*   **Dedicated infrastructure** — Run on a VPS with Docker, a dedicated database, and network-level access controls
 
 ## 🤝 Contributing
 
